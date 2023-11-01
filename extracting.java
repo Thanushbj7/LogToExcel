@@ -119,3 +119,17 @@ public class LogExcelUpdater {
         }
     }
 }
+
+
+
+
+dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>{version}</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>{version}</version>
+</dependency>
