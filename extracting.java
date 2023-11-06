@@ -123,13 +123,50 @@ public class LogExcelUpdater {
 
 
 
-dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi</artifactId>
-    <version>{version}</version>
-</dependency>
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml</artifactId>
-    <version>{version}</version>
-</dependency>
+
+    import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+public class AutomatedUnzipAndReadLogFiles {
+
+    public static void main(String[] args) {
+        // Directory containing zip files
+        String zipDirectory = "path/to/your/zip/files";
+
+        try {
+            File dir = new File(zipDirectory);
+            File[] zipFiles = dir.listFiles((dir1, name) -> name.endsWith(".zip"));
+
+            if (zipFiles != null) {
+                for (File zipFile : zipFiles) {
+                    System.out.println("Unzipping: " + zipFile.getName());
+
+                    try (FileInputStream fis = new FileInputStream(zipFile);
+                         ZipInputStream zis = new ZipInputStream(fis)) {
+
+                        ZipEntry entry;
+                        while ((entry = zis.getNextEntry()) != null) {
+                            if (entry.getName().endsWith(".log")) {
+                                System.out.println("Reading log file: " + entry.getName());
+
+                                // Read the log file content here
+                                // You can use a BufferedReader to read the content line by line
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(zis));
+                                String line;
+                                while ((line = reader.readLine()) != null) {
+                                    // Process each line of the log file
+                                    System.out.println(line);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                System.out.println("No zip files found in the directory.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
