@@ -324,3 +324,51 @@ public class CombinedUnzipAndLogExcelUpdater {
         }
     }
 }
+
+
+The current manual process involves efforts from both the Salesforce AM Team and Salesforce AD Team, and creates about 20 additional hours of work every month. In order to eliminate this resource draw, Salesforce AD will create an automated process to retrieve the copy stats and input them directly into the SW_SFDC_DATACOPY_CONTROL table in Smartworks 1.0.
+ 
+Requirements:
+•	The following Copy Table logs must be queried for the data requested in Requirement #2: 
+o	SBR_Account_History_SFDC
+o	SBR_Reg_Member_History_SFDC
+o	SBR_Registration_History_SFDC
+o	SBR_REG_LETTER_LOG_SFDC
+o	SBR_REG_LETTER_LOG_T2_SFDC
+•	
+o	SFDC_W_TR_REGISTRATION_MAP
+o	SBR_W_REG_LETTER_LOG_REL_SFDC
+o	SFDC_W_SPONSOR_NAMES
+•	
+o	SFDC_W_CLIENT_DISCLOSURE
+o	SFDC_W_CLIENT
+o	SFDC_W_PORTFOLIO_REVIEW
+o	SFDC_W_BENEFICIARY
+o	SFDC_W_REGISTRATION
+o	SFDC_W_REGISTRATION_MEMBERS
+•	
+o	SFDC_EBLOTTER
+o	SFDC_TRADES
+o	SFDC_CHECKS
+•	
+o	SFDC_USER
+•	  
+o	SFDC_W_FINANCIAL_ACCOUNT
+o	SFDC_W_FINANCIAL_ACCOUNT_TEAM
+ 
+•	The following values must be extracted from each of the logs for the above Copy Tables: 
+o	RUN_DATE 
+	This is the first timestamp in the log
+o	RUN_CYCLE 
+	This is 1,2,or 3 depending on the run time for the log. For example, the 2am batches are Run Cycle 1, the subsequent set of batches are Run Cycle 2, etc.
+o	TABLE_NAME 
+o	WEEKLY_DAILY 
+	This is the frequency of the job. All jobs are "D" for daily, except SFDC_W_FINANCIAL ACCOUNT and SFDC_W_FINANCIAL_ACCOUNT_TEAM, which are "W" for weekly
+o	RECORD_COUNT 
+	This is the number of successful extractions captured in the last line of the log file.
+o	START_DATE 
+	This is the date/time value captured in the first line after “decrypting” in the log file. 
+o	END_DATE 
+	This is the date/time value captured in the line of the log file that is affiliated to  “The operation has fully completed” 
+•	The values should be mapped to the SW_SFDC_DATACOPY_CONTROL table in SmartWorks 1.0 before 10:30am ET daily.
+
