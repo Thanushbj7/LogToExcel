@@ -372,3 +372,54 @@ o	END_DATE
 	This is the date/time value captured in the line of the log file that is affiliated to  “The operation has fully completed” 
 •	The values should be mapped to the SW_SFDC_DATACOPY_CONTROL table in SmartWorks 1.0 before 10:30am ET daily.
 
+
+
+
+
+
+
+
+
+
+
+
+    import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
+public class DailyTaskScheduler {
+    public static void main(String[] args) {
+        // Specify the hour and minute you want your code to run.
+        int desiredHour = 10; // Change this to your desired hour
+        int desiredMinute = 30; // Change this to your desired minute
+
+        // Calculate the initial delay until the first execution.
+        long currentTimeMillis = System.currentTimeMillis();
+        long scheduledMillis = calculateScheduledTimeMillis(desiredHour, desiredMinute);
+        long initialDelay = scheduledMillis - currentTimeMillis;
+
+        // Create a scheduled executor service.
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+        // Schedule the task to run daily at your specified time.
+        ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(new YourTask(), initialDelay, 24, TimeUnit.HOURS);
+    }
+
+    static class YourTask implements Runnable {
+        @Override
+        public void run() {
+            // Put your code here that you want to run daily at your specified time.
+            System.out.println("Your code executed at your specified time.");
+        }
+    }
+
+    // Helper method to calculate the scheduled time in milliseconds.
+    private static long calculateScheduledTimeMillis(int hour, int minute) {
+        long currentTimeMillis = System.currentTimeMillis();
+        long scheduledMillis = currentTimeMillis - (currentTimeMillis % (24 * 60 * 60 * 1000));
+        scheduledMillis += (hour * 60 * 60 * 1000) + (minute * 60 * 1000);
+        return scheduledMillis;
+    }
+}
+
