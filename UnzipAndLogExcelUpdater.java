@@ -284,3 +284,42 @@ static void updateExcelWithData(int rowNumber, String excelFilePath, List<String
         e.printStackTrace();
     }
 }
+
+
+
+
+
+
+public static void main(String[] args) {
+    // ... (existing code)
+
+    // Create a map to associate table names with row numbers
+    Map<String, Integer> tableNameToRowNumber = new HashMap<>();
+    tableNameToRowNumber.put("SFDC_W_TR_REGISTRATION_MAP", 21);
+    tableNameToRowNumber.put("SBR_W_REG_LETTER_LOG_REL_SFDC", 22);
+    tableNameToRowNumber.put("SFDC_W_SPONSOR_NAMES", 23);
+    // ... (add more entries for other tables)
+
+    List<String> logFileName = extractDataFromLog(zipDirectory, excelFilePath);
+
+    for (String tableName : tableNames) {
+        if (logFileName.contains("sfdcRegistrationMapExtractProcess")) {
+            tableName.equals("SFDC_W_TR_REGISTRATION_MAP");
+        } else if (logFileName.contains("sfdcSbrLetterLogRelExtractProcess")) {
+            tableName.equals("SBR_W_REG_LETTER_LOG_REL_SFDC");
+        } else if (logFileName.contains("sfdcSponserNamesExtractProcess")) {
+            tableName.equals("SFDC_W_SPONSOR_NAMES");
+        }
+        // ... (add more conditions for other tables)
+
+        // Retrieve the row number based on the table name
+        Integer rowNumber = tableNameToRowNumber.get(tableName);
+
+        if (rowNumber != null) {
+            List<String> extractedData = extractDataFromLog(zipDirectory, excelFilePath);
+            if (!extractedData.isEmpty()) {
+                updateExcelWithData(rowNumber, excelFilePath, extractedData, runCycle);
+            }
+        }
+    }
+}
