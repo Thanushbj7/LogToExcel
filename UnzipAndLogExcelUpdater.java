@@ -323,3 +323,74 @@ public static void main(String[] args) {
         }
     }
 }
+
+
+
+
+public static void main(String[] args) {
+    // ... (existing code)
+
+    // Create a map to associate table names with runCycle values
+    Map<String, String> tableNameToRunCycle = new HashMap<>();
+    tableNameToRunCycle.put("SFDC_W_TR_REGISTRATION_MAP", "21");
+    tableNameToRunCycle.put("SBR_W_REG_LETTER_LOG_REL_SFDC", "22");
+    tableNameToRunCycle.put("SFDC_W_SPONSOR_NAMES", "23");
+    // ... (add more entries for other tables)
+
+    List<String> logFileName = extractDataFromLog(zipDirectory, excelFilePath);
+
+    for (String tableName : tableNames) {
+        if (logFileName.contains("sfdcRegistrationMapExtractProcess")) {
+            tableName.equals("SFDC_W_TR_REGISTRATION_MAP");
+        } else if (logFileName.contains("sfdcSbrLetterLogRelExtractProcess")) {
+            tableName.equals("SBR_W_REG_LETTER_LOG_REL_SFDC");
+        } else if (logFileName.contains("sfdcSponserNamesExtractProcess")) {
+            tableName.equals("SFDC_W_SPONSOR_NAMES");
+        }
+        // ... (add more conditions for other tables)
+
+        // Retrieve the runCycle value based on the table name
+        String runCycle = tableNameToRunCycle.get(tableName);
+
+        if (runCycle != null) {
+            List<String> extractedData = extractDataFromLog(zipDirectory, excelFilePath);
+            if (!extractedData.isEmpty()) {
+                updateExcelWithData(runCycle, excelFilePath, extractedData);
+            }
+        }
+    }
+}
+
+static void updateExcelWithData(String runCycle, String excelFilePath, List<String> extractedData) {
+    try {
+        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+        Workbook workbook = new XSSFWorkbook(inputStream);
+        Sheet sheet = workbook.getSheetAt(0);
+
+        // Find the row based on the runCycle value
+        int rowIndex = findRowIndex(sheet, runCycle);
+
+        Row row = sheet.getRow(rowIndex);
+        if (row == null) {
+            row = sheet.createRow(rowIndex);
+        }
+
+        // ... (existing code to update cells)
+
+        inputStream.close();
+        FileOutputStream outputStream = new FileOutputStream(excelFilePath);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+        System.out.println("Data successfully updated in Excel file.");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+static int findRowIndex(Sheet sheet, String runCycle) {
+    // Implement logic to find the row index based on the runCycle value
+    // For example, you can loop through the rows and check a specific column for the runCycle value
+    // Return the index of the row when you find a match
+    return 0; // Replace this with your actual implementation
+}
