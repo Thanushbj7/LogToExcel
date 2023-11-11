@@ -248,3 +248,39 @@ import java.io.*;
 
 	}
 
+
+
+
+
+
+
+
+static void updateExcelWithData(int rowNumber, String excelFilePath, List<String> extractedData, String runCycle) {
+    try {
+        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+        Workbook workbook = new XSSFWorkbook(inputStream);
+        Sheet sheet = workbook.getSheetAt(0);
+        Row row = sheet.getRow(rowNumber);
+        if (row == null) {
+            row = sheet.createRow(rowNumber);
+        }
+        Cell cell1 = row.createCell(0);
+        cell1.setCellValue(extractedData.get(0));
+        Cell cell2 = row.createCell(6);
+        cell2.setCellValue(extractedData.get(1));
+        Cell cell3 = row.createCell(5);
+        cell3.setCellValue(extractedData.get(2));
+        Cell cell4 = row.createCell(4);
+        cell4.setCellValue(extractedData.get(3));
+        Cell cell5 = row.createCell(2);
+        cell5.setCellValue(runCycle); // Set runCycle value in the Excel file
+        inputStream.close();
+        FileOutputStream outputStream = new FileOutputStream(excelFilePath);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+        System.out.println("Data successfully updated in Excel file.");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
