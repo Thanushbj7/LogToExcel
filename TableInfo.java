@@ -119,4 +119,21 @@ public class LogFileProcessor {
             writer.write(runDate + "," + "" + "," + tableName + "," + "" + "," + recordCount + "," + startDate + "," + endDate + "\n");
         }
     }
-						   }
+	
+
+
+}
+
+
+
+
+
+
+java.io.FileNotFoundException: H:\ZipFile (Access is denied)
+        at java.base/java.io.FileInputStream.open0(Native Method)
+        at java.base/java.io.FileInputStream.open(FileInputStream.java:216)  
+        at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
+        at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
+        at LogFileExtract.unzipFile(LogFileExtract.java:34)
+        at LogFileExtract.main(LogFileExtract.java:19)
+PS Microsoft.PowerShell.Core\FileSystem::\\pstrwdfs9031\Profiles\G-FR1313-NonPrivileged\i733581\Desktop\POC> 
