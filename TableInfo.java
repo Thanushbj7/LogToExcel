@@ -137,3 +137,14 @@ java.io.FileNotFoundException: H:\ZipFile (Access is denied)
         at LogFileExtract.unzipFile(LogFileExtract.java:34)
         at LogFileExtract.main(LogFileExtract.java:19)
 PS Microsoft.PowerShell.Core\FileSystem::\\pstrwdfs9031\Profiles\G-FR1313-NonPrivileged\i733581\Desktop\POC> 
+
+
+
+
+	Exception in thread "main" java.lang.StringIndexOutOfBoundsException: begin 0, end -1, length 13
+        at java.base/java.lang.String.checkBoundsBeginEnd(String.java:4601)
+        at java.base/java.lang.String.substring(String.java:2704)
+        at LogFileExtract.processLogFile(LogFileExtract.java:86)
+        at LogFileExtract.processLogFiles(LogFileExtract.java:64)
+        at LogFileExtract.main(LogFileExtract.java:25)
+PS Microsoft.PowerShell.Core\FileSystem::\\pstrwdfs9031\Profiles\G-FR1313-NonPrivileged\i73
